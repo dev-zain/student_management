@@ -1,0 +1,82 @@
+{% load static %}
+
+<head>
+   <link rel="stylesheet" href="{% static 'css/full_details.css' %}">
+   <title>Full Details</title>
+</head>
+<body>
+    <div class="details-container">
+        <div class="details-table">
+            <h2>Student Details</h2>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ student.student_name }}</td>
+                </tr>
+                <tr>
+                    <th>Father Name</th>
+                    <td>{{ student.father_name }}</td>
+                </tr>
+                <tr>
+                    <th>ID Card</th>
+                    <td>{{ student.id_card_number }}</td>
+                </tr>
+                <tr>
+                    <th>Contact</th>
+                    <td>{{ student.contact }}</td>
+                </tr>
+                <tr>
+                    <th>Roll No</th>
+                    <td>{{ student.roll_no }}</td>
+                </tr>
+                <tr>
+                    <th>Department</th>
+                    <td>{{ student.department }}</td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>{{ student.address }}</td>
+                </tr>
+                <tr>
+                    <th>Session</th>
+                    <td>{{ student.session }}</td>
+                </tr>
+                
+                <tr>
+                    <th>Email</th>
+                    <td>{{ student.email }}</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>{{ student.gender }}</td>
+                </tr>
+                <tr>
+                    <th>Emergency Contact</th>
+                    <td>{{ student.emergency_contact }}</td>
+                </tr>
+                <tr>
+                    <th>Blood Group</th>
+                    <td>{{ student.blood_group }}</td>
+                </tr>
+               
+                <tr>
+                    <th>Card Issue Date</th>
+                    <td>{{ student.card_issue_date }}</td>
+                </tr>
+                <tr>
+                    <th>Expiry Date</th>
+                    <td>{{ student.expiry_date }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="user-pic">
+            <img src="{{ student.photo.url }}" alt="User"> <br>
+            {% if user.is_superuser %}
+            <a href="{% url 'update_student' student.id %}" class="update-btn" style="text-decoration: none;">Update</a>
+            <a href="{% url 'delete_student' student.id %}" class="delete-btn" style="text-decoration: none;">Delete</a>
+            {% endif %}
+
+            
+        </div>
+    </div>
+</body>

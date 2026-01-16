@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Studet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .delete-container {
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .delete-header {
+            background-color: #dc3545;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .confirmation-message {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .delete-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .confirm-button,
+        .cancel-button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cancel-button {
+            background-color: gray;
+        }
+
+        .confirm-button:hover,
+        .cancel-button:hover {
+            background-color: #b53341;
+        }
+    </style>
+</head>
+<body>
+    <div class="delete-container">
+        <div class="delete-header">
+            <h2>Delete Student</h2>
+        </div>
+        <p class="confirmation-message">
+            <span>Are you sure you want to delete {{student.student_name}}?</span>
+            <i class="fas fa-exclamation-circle"></i>
+        </p>
+        <div class="delete-buttons">
+            <form action="{% url 'delete_student' student.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="confirm-button">Confirm</button>
+            </form>
+            <a href="{% url 'home' %}" class="cancel-button" style="text-decoration: none;">Cancel</a>
+        </div>
+    </div>
+</body>
+</html>

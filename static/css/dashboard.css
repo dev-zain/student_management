@@ -1,0 +1,109 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container-fluid {
+    padding: 20px;
+}
+
+.main-content {
+    margin-left: 0;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+.bg-fsc-part-1 {
+    background-color: #007bff !important;
+    color: #fff;
+}
+
+.bg-fsc-part-2 {
+    background-color: #28a745 !important;
+    color: #fff;
+}
+
+.bg-computer {
+    background-color: #007bff !important;
+    color: #fff;
+}
+
+.bg-economics {
+    background-color: #ffc107 !important;
+    color: #fff;
+}
+
+.bg-mathematics {
+    background-color: #ffd8b1 !important;
+    color: #fff;
+}
+
+.bg-english {
+    background-color: #800000 !important;
+    color: #fff;
+}
+
+.bg-chemistry {
+    background-color: #800080 !important;
+    color: #fff;
+}
+
+.bg-total-teachers {
+    background-color: #007bff !important;
+    color: #fff;
+}
+
+.bg-male-teachers {
+    background-color: #28a745 !important;
+    color: #fff;
+}
+
+.bg-female-teachers {
+    background-color: #dc3545 !important;
+    color: #fff;
+}
+
+.activity-list {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.activity-list .list-group-item {
+    border: none;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.activity-list .list-group-item:last-child {
+    border-bottom: none;
+}
+
+/* Add styles for the charts container if needed */
+/* Add styles for the charts container if needed */
+.row {
+    margin-bottom: 20px;
+}
+
+/* Style the chart container */
+.chart-container {
+    max-width: 300px; /* Set your desired maximum width */
+    margin: 0 auto;   /* Center the container */
+}
+
+/* Style the chart canvas */
+canvas {
+    width: 100%;
+    height: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <title>Student Management</title>
+</head>
+
+<body>
+    <h3 style="text-align: center; margin-top: 25px; text-decoration: underline;">Student Identification And Auto Card
+        Generation System</h3>
+    <div class="form-container">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Roll No</th>
+                        <th>Department</th>
+                        {% if user.is_superuser %}
+                        <th>Generate Card</th>
+                        {% endif %}
+                        <th>Full Details</th>
+                        <th>User Picture</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Add similar rows for other users -->
+                    {% for student in students %}
+                    <tr>
+                        <td>{{student.student_name}}</td>
+                        <td>{{student.roll_no}}</td>
+                        <td>{{student.department}}</td>
+                        {% if user.is_superuser %}
+                        <td><a href="{% url 'generate_card' student.id %}" class="generate-btn"
+                                style="text-decoration: none;">Generate Card</a></td>
+                        {% endif %}
+                        <td><a href="{% url 'full_details' student.id %}" class="details-btn"
+                                style="text-decoration: none;">Full Details</a></td>
+                        <td>{% if student.photo %}<img src="{{student.photo.url}}" alt="User" class="user-image">{% else
+                            %}<span class="no-photo">No Photo</span>{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add pagination controls below your table -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if students.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ students.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ students.number }} of {{ students.paginator.num_pages }}.
+            </span>
+
+            {% if students.has_next %}
+            <a href="?page={{ students.next_page_number }}">next</a>
+            <a href="?page={{ students.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+
+</body>
+<script>
+    // Clear the search input field when the page is loaded from the cache, not on refresh.
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted || (window.performance && window.performance.navigation.type === 1)) {
+            document.querySelector('input[name="search"]').value = '';
+        }
+    });
+</script>
+
+{% endblock %}

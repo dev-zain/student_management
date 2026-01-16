@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .department-page {
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+    }
+
+    .page-header {
+
+        background: linear-gradient(135deg,
+            {
+            % if department=='computer' %
+        }
+
+        #667eea, #764ba2 {
+            % elif department=='economics' %
+        }
+
+        #f093fb, #f5576c {
+            % elif department=='mathematics' %
+        }
+
+        #4facfe, #00f2fe {
+            % elif department=='english' %
+        }
+
+        #43e97b, #38f9d7 {
+            % elif department=='chemistry' %
+        }
+
+        #fa709a, #fee140 {
+            % else %
+        }
+
+        #667eea, #764ba2 {
+            % endif %
+        });
+    padding: 2rem;
+    border-radius: 1rem;
+    color: white;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .header-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .header-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+
+    .students-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .student-card {
+        background: white;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border-left: 4px solid;
+
+        border-left-color: {
+            % if department=='computer' %
+        }
+
+        #667eea {
+            % elif department=='economics' %
+        }
+
+        #f093fb {
+            % elif department=='mathematics' %
+        }
+
+        #4facfe {
+            % elif department=='english' %
+        }
+
+        #43e97b {
+            % elif department=='chemistry' %
+        }
+
+        #fa709a {
+            % else %
+        }
+
+        #667eea {
+            % endif %
+        }
+
+        ;
+    }
+
+    .student-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .student-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .student-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+
+        border: 3px solid {
+            % if department=='computer' %
+        }
+
+        #667eea {
+            % elif department=='economics' %
+        }
+
+        #f093fb {
+            % elif department=='mathematics' %
+        }
+
+        #4facfe {
+            % elif department=='english' %
+        }
+
+        #43e97b {
+            % elif department=='chemistry' %
+        }
+
+        #fa709a {
+            % else %
+        }
+
+        #667eea {
+            % endif %
+        }
+
+        ;
+    }
+
+    .student-name {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .student-roll {
+        font-size: 0.9rem;
+        color: #64748b;
+    }
+
+    .student-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .detail-label {
+        color: #64748b;
+        font-weight: 600;
+    }
+
+    .detail-value {
+        color: #1e293b;
+        font-weight: 500;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .btn-sm {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        flex: 1;
+        text-align: center;
+    }
+
+    .btn-view {
+        background: linear-gradient(135deg, #6366f1, #4f46e5);
+        color: white;
+    }
+
+    .btn-view:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+    }
+</style>
+
+<div class="department-page fade-in">
+    <div class="page-header">
+        <h1 class="header-title">📚 {{ department|title }} Department</h1>
+        <p class="header-subtitle">{{ total_count }} student{{ total_count|pluralize }} enrolled</p>
+    </div>
+
+    {% if students %}
+    <div class="students-grid">
+        {% for student in students %}
+        <div class="student-card">
+            <div class="student-header">
+                <img src="{{ student.photo.url }}" alt="{{ student.student_name }}" class="student-avatar">
+                <div>
+                    <div class="student-name">{{ student.student_name }}</div>
+                    <div class="student-roll">{{ student.roll_no }}</div>
+                </div>
+            </div>
+
+            <div class="student-details">
+                <div class="detail-item">
+                    <span class="detail-label">Father:</span>
+                    <span class="detail-value">{{ student.father_name }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Grade:</span>
+                    <span class="detail-value">{{ student.student_grade|default:"N/A" }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Blood:</span>
+                    <span class="detail-value">{{ student.blood_group }}</span>
+                </div>
+            </div>
+
+            <div class="card-actions">
+                <a href="{% url 'full_details' student.id %}" class="btn-sm btn-view">👁️ View Full Details</a>
+                <a href="{% url 'generate_card' student.id %}" class="btn-sm btn-view">🆔 ID Card</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="card" style="text-align: center; padding: 3rem;">
+        <h3 style="color: #64748b;">No students found in this department</h3>
+    </div>
+    {% endif %}
+
+    <!-- Pagination -->
+    {% if students.has_other_pages %}
+    <div style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 2rem;">
+        {% if students.has_previous %}
+        <a href="?page={{ students.previous_page_number }}" class="action-btn add-user-btn">← Previous</a>
+        {% endif %}
+
+        <span style="padding: 0.75rem 1.5rem; background: white; border-radius: 0.5rem; font-weight: 600;">
+            Page {{ students.number }} of {{ students.paginator.num_pages }}
+        </span>
+
+        {% if students.has_next %}
+        <a href="?page={{ students.next_page_number }}" class="action-btn add-user-btn">Next →</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

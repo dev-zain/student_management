@@ -1,0 +1,125 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/generate_card.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate card</title>
+</head>
+
+<body>
+    <div class="card-container">
+        <div class="card">
+            <!-- Watermark for the front side -->
+            <img src="{% static 'resources/wapda_logo.png' %}" alt="Watermark" class="watermark">
+
+            <div class="logo" style="background-color: 
+            {% if student.department == 'computer' %} #0445db 
+            {% elif student.department == 'economics' %} yellow 
+            {% elif student.department == 'mathematics' %} #FF91AF 
+            {% elif student.department == 'english' %} #a10b27 
+            {% elif student.department == 'chemistry' %} #7d0aad 
+            {% else %} #ffffff 
+            {% endif %}; 
+            color: 
+            {% if student.department == 'computer' or student.department == 'english' or student.department == 'chemistry' %} white 
+            {% else %} black 
+            {% endif %};">
+                <img src="{% static 'resources/wapda.jpg' %}" alt="Logo">
+                <div class="college-name">WAPDA POST GRADUATE COLLEGE TARBELA DAM Project</div>
+            </div>
+
+            <div class="line"></div>
+
+            <div class="title" style="color: #0445db;">Student Identity Card</div>
+            <div class="title" style="font-size: 10px;">Session: 2020-2024</div>
+
+            <div class="details">
+                <div class="left-details">
+                    <div class="detail-row">
+                        <div class="label">Name:</div>
+                        <div class="value">{{student.student_name}}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">Father Name:</div>
+                        <div class="value">{{student.father_name}}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">Roll No:</div>
+                        <div class="value">{{student.roll_no}}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">Blood Group:</div>
+                        <div class="value">{{student.blood_group}}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">Department:</div>
+                        <div class="value">{{student.department}}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">Valid Upto:</div>
+                        <div class="value">{{student.expiry_date}}</div>
+                    </div>
+                </div>
+                <div class="right-details">
+                    <img src="{{student.photo.url}}" alt="Student Picture" class="picture">
+                    {% if student.department == 'computer' %}
+                    <img src="{% static 'resources/asghar.png' %}" alt="Digital Signature" class="digital-signature">
+                    {% elif student.department == 'economics' %}
+                    <img src="{% static 'resources/iftikhar.png' %}" alt="Digital Signature" class="digital-signature">
+                    {% else %}
+                    <img src="{% static 'resources/signature.png' %}" alt="Digital Signature" class="digital-signature">
+                    {% endif %}
+                    <div class="signature">H.O.D Signature</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Side of the Card -->
+        <div class="card-back">
+            <img src="{% static 'resources/wapda_logo.png' %}" alt="Watermark" class="back-watermark">
+
+            <div class="address">
+                {{student.address}}
+            </div>
+
+            <div class="contact-qrcode-container">
+                <div class="contact">
+                    <p>Contact: {{student.contact}}</p>
+                </div>
+                <div class="qrcode-container">
+                    <img src="{{student.qr_code.url}}" alt="QR Code" class="qrcode">
+                </div>
+            </div>
+
+            <div class="cnic">
+                <p>CNIC: {% for digit in student.id_card_number %}
+                    <span class="cnic-box" style="background-color:
+                {% if student.department == 'computer' %} #0445db
+                {% elif student.department == 'economics' %} yellow; color:black
+                {% elif student.department == 'mathematics' %} #FF91AF
+                {% elif student.department == 'english' %} #a10b27
+                {% elif student.department == 'chemistry' %} #7d0aad
+                {% else %} #ffffff {% endif %};">
+                        {{digit}}</span>
+                    {% endfor %}
+                </p>
+            </div>
+
+            <div class="return-text" style="background-color:
+                {% if student.department == 'computer' %} #0445db
+                {% elif student.department == 'economics' %} yellow; color:black
+                {% elif student.department == 'mathematics' %} #FF91AF; color:black
+                {% elif student.department == 'english' %} #a10b27
+                {% elif student.department == 'chemistry' %} #7d0aad
+                {% else %} #ffffff {% endif %};">
+                This card is property of WAPDA POST GRADUATE COLLEGE TARBELA DAM. If found, please return to: WAPDA POST
+                GRADUATE COLLEGE TARBELA DAM, District Haripur
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

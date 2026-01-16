@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center; /* Center-align the form */
+        }
+
+        .form-header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .custom-form label {
+            display: inline-block;
+            width: 200px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            /* text-align: left; */
+        }
+
+        .custom-form input[type="text"],
+        .custom-form input[type="email"],
+        .custom-form input[type="date"],
+        .custom-form input[type="number"],
+        .custom-form textarea {
+            width: calc(100% - 210px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .custom-form textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Add New Student</h2>
+        </div>
+        <form action="" method="POST" class="custom-form" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="student_photo" style="margin-top: 10px;">Student Photo:</label>
+            {{ form.photo }}
+
+            <label for="student_name">Student Name:</label>
+            {{ form.student_name }}
+            
+            <label for="father_name">Father's Name:</label>
+            {{ form.father_name }}
+            
+            <label for="dob">Date of Birth:</label>
+            {{ form.dob }}
+            
+            <label for="contact">Contact:</label>
+            {{ form.contact }}
+            
+            <label for="roll_no">Roll No:</label>
+            {{ form.roll_no }}
+            
+            <label for="department">Department:</label>
+            {{ form.department }} <br> <br>
+            
+            <label for="enrollment_year">Session:</label>
+            {{ form.session}}
+            
+            <label for="email">Email:</label>
+            {{ form.email }}
+            
+            <label for="address">Address:</label>
+            {{ form.address }}
+            
+            <label for="gender">Gender:</label>
+            {{ form.gender }}
+            
+            <label for="emergency_contact">Emergency Contact:</label>
+            {{ form.emergency_contact }}
+            
+            <label for="blood_group">Blood Group:</label>
+            {{ form.blood_group }}
+            
+            <label for="id_card_number">ID Card Number:</label>
+            {{ form.id_card_number }}
+            
+            <label for="card_issue_date">Card Issue Date:</label>
+            {{ form.card_issue_date }}
+            
+            <label for="expiry_date">Expiry Date:</label>
+            {{ form.expiry_date }} <br>
+
+            <button type="submit" class="submit-button">Add Student</button>
+        </form>
+    </div>
+</body>
+</html>

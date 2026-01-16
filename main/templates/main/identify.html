@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .scanner-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .scanner-card {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2.5rem;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    .scanner-title {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #6366f1, #ec4899);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 2rem;
+    }
+
+    #reader {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        border: 3px solid #e2e8f0;
+    }
+
+    .result-container {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        border-radius: 1rem;
+        text-align: center;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .result-success {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+    }
+
+    .result-error {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+    }
+
+    .result-status {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .student-details {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    .student-details p {
+        margin: 0.75rem 0;
+        font-size: 1.1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .student-details strong {
+        font-weight: 600;
+    }
+
+    .loading-indicator {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .instruction {
+        text-align: center;
+        color: #64748b;
+        margin: 1rem 0;
+        font-size: 1rem;
+    }
+</style>
+
+<div class="scanner-container">
+    <div class="scanner-card">
+        <h2 class="scanner-title">📷 QR Code Scanner</h2>
+        <p class="instruction">Position the QR code within the camera frame</p>
+
+        <div id="reader"></div>
+
+        <div id="result-container" style="display: none;">
+            <h3 id="result-status" class="result-status"></h3>
+            <div id="student-details" style="display: none;" class="student-details">
+                <p><strong>Name:</strong> <span id="student-name"></span></p>
+                <p><strong>Department:</strong> <span id="student-dept"></span></p>
+                <p><strong>Roll No:</strong> <span id="student-roll"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script>
+    const resultContainer = document.getElementById('result-container');
+    const resultStatus = document.getElementById('result-status');
+    const studentDetails = document.getElementById('student-details');
+    const studentName = document.getElementById('student-name');
+    const studentDept = document.getElementById('student-dept');
+    const studentRoll = document.getElementById('student-roll');
+
+    let isScanning = true;
+
+    function onScanSuccess(decodedText, decodedResult) {
+        if (!isScanning) return;
+        isScanning = false;
+
+        // Show loading
+        resultContainer.style.display = 'block';
+        resultContainer.className = 'result-container';
+        resultStatus.innerHTML = 'Processing... <span class="loading-indicator"></span>';
+        studentDetails.style.display = 'none';
+
+        // Send data to backend
+        fetch("{% url 'process_qr' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({ 'qr_data': decodedText })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    resultContainer.className = 'result-container result-success';
+                    resultStatus.innerText = "✅ Authorized Access";
+
+                    studentName.innerText = data.student.name;
+                    studentDept.innerText = data.student.department;
+                    studentRoll.innerText = data.student.roll_no;
+
+                    studentDetails.style.display = 'block';
+
+                    setTimeout(() => {
+                        isScanning = true;
+                        resultContainer.style.display = 'none';
+                    }, 4000);
+
+                } else {
+                    resultContainer.className = 'result-container result-error';
+                    resultStatus.innerText = "❌ Access Denied - Student Not Found";
+                    studentDetails.style.display = 'none';
+
+                    setTimeout(() => {
+                        isScanning = true;
+                        resultContainer.style.display = 'none';
+                    }, 3000);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                resultContainer.className = 'result-container result-error';
+                resultStatus.innerText = "❌ Connection Error";
+                setTimeout(() => {
+                    isScanning = true;
+                    resultContainer.style.display = 'none';
+                }, 3000);
+            });
+    }
+
+    function onScanFailure(error) {
+        // Silently ignore scan failures
+    }
+
+    let html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader",
+        { fps: 10, qrbox: { width: 300, height: 300 } },
+        /* verbose= */ false);
+    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+</script>
+{% endblock %}

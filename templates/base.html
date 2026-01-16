@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Student Management System - Professional ID Card Generator">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+    <title>Student Management System</title>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <a href="{% url 'home' %}" style="text-decoration: none;">
+                <h1 class="header-title">🎓 Student Manager</h1>
+            </a>
+            <nav class="navbar-items">
+                {% if user.is_superuser %}
+                <a href="{% url 'add_user' %}" class="action-btn add-user-btn">➕ Add Student</a>
+                {% endif %}
+                <a href="{% url 'dashboard' %}" class="action-btn"
+                    style="background: linear-gradient(135deg, #f59e0b, #d97706);">📊 Dashboard</a>
+                <a href="{% url 'identify' %}" class="action-btn scan-user-btn">📷 Scan QR</a>
+                <form class="search-form" method="GET" action="">
+                    <input type="text" class="search-input" name="search" placeholder="Search students..."
+                        value="{{ search_query }}">
+                    <button type="submit" class="action-btn generate-btn">🔍 Search</button>
+                </form>
+                <a href="{% url 'logout' %}" class="action-btn logout-btn">🚪 Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+
+</html>
