@@ -194,12 +194,16 @@ Use the provided `Dockerfile` for containerized deployment.
 
 This project is licensed under the MIT License.
 
+## 🌐 Live Demo
+
+**[View Live Application](https://web-production-750fc.up.railway.app/)**
+
 ## 👤 Author
 
-**Your Name**
-- Portfolio: [your-portfolio.com](https://your-portfolio.com)
-- LinkedIn: [Your Profile](https://linkedin.com/in/yourprofile)
-- GitHub: [@yourusername](https://github.com/yourusername)
+**Zain**
+- Live Demo: [Student Management System](https://web-production-750fc.up.railway.app/)
+- LinkedIn: [dev-zain](https://www.linkedin.com/in/dev-zain/)
+- GitHub: [@dev-zain](https://github.com/dev-zain)
 
 ## 🙏 Acknowledgments
 
